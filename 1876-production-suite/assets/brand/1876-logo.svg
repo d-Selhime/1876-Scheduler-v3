@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 160" role="img" aria-label="1876 Productions">
+  <defs>
+    <style>
+      .brand-1876 { font: 700 84px system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; fill: #0ea5e9; }
+      .brand-sub { font: 600 28px system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; fill: #6b7280; letter-spacing: 4px; }
+    </style>
+  </defs>
+  <rect fill="none" width="420" height="160"/>
+  <text class="brand-1876" x="18" y="94">1876</text>
+  <text class="brand-sub" x="20" y="135">PRODUCTIONS</text>
+</svg>
