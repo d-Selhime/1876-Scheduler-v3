@@ -58,7 +58,7 @@ function p1876_enqueue_assets() {
         true
     );
 
-    wp_localize_script( '1876-app', 'P1876_API', [
+    wp_localize_script( '1876-api-adapter', 'P1876_API', [
         'root'     => esc_url_raw( rest_url( P1876_API_NS ) ),
         'nonce'    => wp_create_nonce( 'wp_rest' ),
         'version'  => P1876_VERSION,
