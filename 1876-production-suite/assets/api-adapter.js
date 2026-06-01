@@ -8,6 +8,9 @@
  *   P1876_API.nonce  = '<wp_rest nonce>'
  */
 
+// Alias so app.js (which still references SS_API) finds the localized object
+var SS_API = P1876_API; // eslint-disable-line no-var
+
 /* global P1876_API, jobs, users, anchorDate, currentHorizonDays,
           currentUserName, applyLoadedState, renderSchedule,
           saveStateToStorage, buildStatePayload,
