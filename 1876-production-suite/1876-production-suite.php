@@ -26,6 +26,61 @@ require_once P1876_DIR . 'includes/class-1876-api-jobs.php';
 require_once P1876_DIR . 'includes/class-1876-api-orders.php';
 require_once P1876_DIR . 'includes/class-1876-api-misc.php';
 
+// ── Enqueue assets ───────────────────────────────────────────────────────────
+add_action( 'wp_enqueue_scripts', 'p1876_enqueue_assets' );
+function p1876_enqueue_assets() {
+    global $post;
+    if ( ! is_a( $post, 'WP_Post' ) || ! has_shortcode( $post->post_content, '1876_scheduler' ) ) {
+        return;
+    }
+
+    wp_enqueue_script(
+        'sheetjs',
+        'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js',
+        [],
+        '0.18.5',
+        false
+    );
+
+    wp_enqueue_script(
+        '1876-api-adapter',
+        P1876_URL . 'assets/api-adapter.js',
+        [ 'sheetjs' ],
+        P1876_VERSION,
+        true
+    );
+
+    wp_enqueue_script(
+        '1876-app',
+        P1876_URL . 'assets/app.js',
+        [ 'sheetjs', '1876-api-adapter' ],
+        P1876_VERSION,
+        true
+    );
+
+    wp_localize_script( '1876-api-adapter', 'P1876_API', [
+        'root'     => esc_url_raw( rest_url( P1876_API_NS ) ),
+        'nonce'    => wp_create_nonce( 'wp_rest' ),
+        'version'  => P1876_VERSION,
+        'brandUrl' => P1876_URL . 'assets/brand/',
+    ] );
+
+    wp_enqueue_style(
+        '1876-app',
+        P1876_URL . 'assets/app.css',
+        [],
+        P1876_VERSION
+    );
+}
+
+// ── Shortcode ────────────────────────────────────────────────────────────────
+add_shortcode( '1876_scheduler', 'p1876_render_shortcode' );
+function p1876_render_shortcode() {
+    ob_start();
+    include P1876_DIR . 'includes/template.php';
+    return ob_get_clean();
+}
+
 // ── Activation / Deactivation ────────────────────────────────────────────────
 register_activation_hook( __FILE__,   [ 'P1876_DB', 'install'    ] );
 register_deactivation_hook( __FILE__, [ 'P1876_DB', 'deactivate' ] );

@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class P1876_DB {
 
-    const DB_VERSION        = '1.1.0';
+    const DB_VERSION        = '1.2.0';
     const DB_VERSION_OPTION = '1876_db_version';
 
     // ── Install (runs on plugin activation) ─────────────────────────────────
@@ -177,6 +177,17 @@ class P1876_DB {
             file_name       VARCHAR(500)    NOT NULL DEFAULT '',
             PRIMARY KEY (id),
             KEY idx_order_entry_id (order_entry_id)
+        ) $c;" );
+
+        // ── users — team roster with roles and function assignments ──────────────
+        dbDelta( "CREATE TABLE {$pfx}users (
+            id         BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+            name       VARCHAR(150)    NOT NULL DEFAULT '',
+            role       VARCHAR(50)     NOT NULL DEFAULT 'view',
+            lobs       TEXT,
+            functions  TEXT,
+            PRIMARY KEY (id),
+            UNIQUE KEY idx_name (name(100))
         ) $c;" );
 
         // ── settings ──────────────────────────────────────────────────────────
